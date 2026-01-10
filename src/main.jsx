@@ -3,27 +3,59 @@ import { createRoot } from "react-dom/client";
 import { useState } from "react";
 
 function App() {
-  const [tasks, setTasks] = React.useState([]);
-  const [title, setTitle] = React.useState("");
+  // State for alle tasks
+  const [tasks, setTasks] = useState([]);
 
+  // State for input-feltet
+  const [title, setTitle] = useState("");
+
+  // Kalles når skjeamet sendes inn
   function handleSubmit(e) {
     e.preventDefault();
-    setTasks([...tasks, { title, completed: false }]);
+
+    // Legger til ny task
+    setTasks([
+      ...tasks,
+      {
+        id: crypto.randomUUID(),
+        title: title,
+        completed: false,
+      },
+    ]);
+
+    // Tøm inputfeltet
     setTitle("");
+  }
+
+  // Toggle ferdig/ikke ferdig
+
+  function toggleTask(id) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task,
+      ),
+    );
   }
 
   return (
     <>
       <h1>Todo App</h1>
+
+      {/* Form for ny task */}
       <form onSubmit={handleSubmit}>
         <input value={title} onChange={(e) => setTitle(e.target.value)} />
         <button>Add</button>
       </form>
 
+      {/* Liste med tasks */}
       <ul>
-        {tasks.map((task, index) => (
-          <li key={index}>
-            <input type="checkbox" />
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => toggleTask(task.id)}
+            />
             {task.title}
           </li>
         ))}
