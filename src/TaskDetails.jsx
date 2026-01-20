@@ -12,18 +12,25 @@ export default function TaskDetails({ tasks, updateTask }) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    if (!dialogRef.current) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    function handleClose() {
+      setIsDialogOpen(false);
+    }
+
+    dialog.addEventListener("close", handleClose);
 
     if (isDialogOpen) {
-      dialogRef.current.showModal();
+      dialog.showModal();
     } else {
-      dialogRef.current.close();
+      dialog.close();
     }
-  }, [isDialogOpen]);
 
-  if (!task) {
-    return <p>Task not found</p>;
-  }
+    return () => {
+      dialog.removeEventListener("close", handleClose);
+    };
+  }, [isDialogOpen]);
 
   function handleSave() {
     updateTask({
