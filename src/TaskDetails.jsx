@@ -1,9 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function TaskDetails({ tasks, updateTask }) {
   const { id } = useParams();
-  const navigate = useNavigate();
 
   const task = tasks.find((t) => t.id === id);
 
@@ -32,14 +31,6 @@ export default function TaskDetails({ tasks, updateTask }) {
     };
   }, [isDialogOpen]);
 
-  function handleSave() {
-    updateTask({
-      ...task,
-      description,
-    });
-    navigate("/");
-  }
-
   return (
     <>
       <h2>{task.title}</h2>
@@ -47,7 +38,31 @@ export default function TaskDetails({ tasks, updateTask }) {
       <button onClick={() => setIsDialogOpen(true)}>Edit</button>
 
       <dialog ref={dialogRef}>
-        <p>Dialog kommer her</p>
+        <form
+          method="dialog"
+          onSubmit={(e) => {
+            e.preventDefault();
+            updateTask({
+              ...task,
+              description,
+            });
+            setIsDialogOpen(false);
+          }}
+        >
+          <h3>Edit description</h3>
+
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+
+          <div>
+            <button type="submit">Save</button>
+            <button type="button" onClick={() => setIsDialogOpen(false)}>
+              Cancel
+            </button>
+          </div>
+        </form>
       </dialog>
     </>
   );
