@@ -1,0 +1,32 @@
+{
+  "name": "pg6301-exercise3",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "prettier --check .",
+    "prepare": "husky",
+    "dev": "vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mubu0020/PG6301-exercise3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mubu0020/PG6301-exercise3/issues"
+  },
+  "homepage": "https://github.com/mubu0020/PG6301-exercise3#readme",
+  "description": "",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.7.4",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.12.0"
+  }
+}
