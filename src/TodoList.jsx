@@ -3,11 +3,19 @@ import { Link } from "react-router-dom";
 
 export default function TodoList({ tasks, addTask, toggleTask }) {
   const [title, setTitle] = useState("");
+  const [error, setError] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (title.trim() === "") {
+      setError("Tittel kan ikke være tom");
+      return;
+    }
+
     addTask(title);
     setTitle("");
+    setError("");
   }
 
   return (
