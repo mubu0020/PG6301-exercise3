@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function TaskDetails({ tasks, updateTask }) {
@@ -8,6 +8,18 @@ export default function TaskDetails({ tasks, updateTask }) {
   const task = tasks.find((t) => t.id === id);
 
   const [description, setDescription] = useState(task ? task.description : "");
+  const dialogRef = useRef(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (!dialogRef.current) return;
+
+    if (isDialogOpen) {
+      dialogRef.current.showModal();
+    } else {
+      dialogRef.current.close();
+    }
+  }, [isDialogOpen]);
 
   if (!task) {
     return <p>Task not found</p>;
@@ -25,14 +37,11 @@ export default function TaskDetails({ tasks, updateTask }) {
     <>
       <h2>{task.title}</h2>
 
-      <textarea
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+      <button onClick={() => setIsDialogOpen(true)}>Edit</button>
 
-      <br />
-
-      <button onClick={handleSave}>Save</button>
+      <dialog ref={dialogRef}>
+        <p>Dialog kommer her</p>
+      </dialog>
     </>
   );
 }
